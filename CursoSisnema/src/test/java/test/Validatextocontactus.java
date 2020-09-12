@@ -10,49 +10,45 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import page.HomePage;
+import page.ProdutoPage;
 
 public class Validatextocontactus {
+	private WebDriver driver;
+
 	private HomePage homePage;
-	
-    private WebDriver driver;
-    @Before
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.get("https://marcelodebittencourt.com/demoprestashop/");
-        driver.manage().window().maximize();
-        homePage = new HomePage(driver);
 
-    }
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
-    @Test
-    public void validatextocontactus() {
-        
-        //assertThat(driver.findElement(By.linkText("Contact us")).getText(), is("Contact us"));
-              
-        assertThat(homePage.obterTextoLinkContactus(), is("Contact us"));
-    }
-    
-    @Test
-    public void validaNomeProdutoTelaDetalhe_nomesIguais() {
-    	//localizar o nome do primeiro produto 
-    	String nomeProdutoHomePage = homePage.obterNomePrimeiroProduto();
-    	
-    	System.out.println(nomeProdutoHomePage);
-    	
-    	//clicar nesse primeiro produto
-    	//na tela de detalhe do produto e validaremos se o nome é igual
-    	
-    	
-    }
-    
+	@Before
+	public void setUp() {
+		driver = new ChromeDriver();
+		driver.get("https://marcelodebittencourt.com/demoprestashop/");
+		driver.manage().window().maximize();
+		homePage = new HomePage(driver);
+
+	}
+
+	@After
+	public void tearDown() {
+		driver.quit();
+	}
+
+	@Test
+	public void validatextocontactus() {
+
+		assertThat(homePage.obterTextoLinkContactUs(), is("Contact us"));
+	}
+
+	@Test
+	public void validaNomeProdutoTelaDetalhe_nomesIguais() {
+		//localizar o nome do primeiro produto
+		String nomeProduto_HomePage = homePage.obterNomePrimeiroProduto();
+		
+		//clicar neste primeiro produto
+		ProdutoPage produtoPage = homePage.clicarNomePrimeiroProduto();
+		//na tela de detalhe de produto validaremos se o nome é igual
+		String nomeProduto_ProdutoPage = produtoPage.obterNomeProduto(); 
+		
+		assertThat(nomeProduto_HomePage.toUpperCase(), is(nomeProduto_ProdutoPage));
+	}
+
 }
-
-
-
-
-
-
 
